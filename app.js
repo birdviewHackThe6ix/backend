@@ -10,6 +10,7 @@ var authenticate = require('./authenticate');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var profileRouter = require('./routes/profileRouter');
 
 var app = express();
 
@@ -50,6 +51,8 @@ function auth(req, res, next) {
 app.use(auth);
 
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use('/profiles', profileRouter);
 
 const mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
