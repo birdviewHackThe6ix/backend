@@ -36,7 +36,7 @@ app.use('/users', usersRouter);
 const mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
 
-const url = 'mongodb://localhost:27017/conFusion';
+const url = 'mongodb://localhost:27017/birdview';
 const connect = mongoose.connect(url);
 connect.then((client) => {
   console.log('Connected correctly to server');
