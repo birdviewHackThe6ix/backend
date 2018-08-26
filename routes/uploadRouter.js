@@ -7,9 +7,9 @@ const fileType = require('file-type');
 const bluebird = require('bluebird');
 const multiparty = require('multiparty');
 
-const BUCKET_NAME = 'birdviewbucket';
-const IAM_USER_KEY = 'AKIAIX2Y7UI5T7Q3M22A';
-const IAM_USER_SECRET = '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';
+import  BUCKET_NAME from '../keys';
+import IAM_USER_KEY from '../keys';
+import IAM_USER_SECRET from '../keys';
 
 AWS.config.update({
   accessKeyId: IAM_USER_KEY,
