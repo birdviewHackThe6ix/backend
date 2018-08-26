@@ -36,6 +36,9 @@ const mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
 
 const url = 'mongodb://localhost:27017/birdview';
+// const url = 'mongodb+srv://birdview_client:birdy123@cluster0eupui.gcp.mongodb.net/test?retryWrites=true';
+// const url = 'mongodb://birdview_client:birdy123@cluster0.mongodb.net/test';
+// var url = 'mongodb://birdview_client:birdy123@mycluster0-shard-00-00.mongodb.net:27017,mycluster0-shard-00-01.mongodb.net:27017,mycluster0-shard-00-02.mongodb.net:27017/admin?ssl=true&replicaSet=Mycluster0-shard-0&authSource=admin';
 const connect = mongoose.connect(url);
 connect.then((client) => {
   console.log('Connected correctly to server');

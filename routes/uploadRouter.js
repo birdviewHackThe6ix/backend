@@ -1,28 +1,35 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const multer = require('multer');
+const busboy = require('connect-busboy');
+const AWS = require('aws-sdk');
+const fs = require('fs');
+const fileType = require('file-type');
+const bluebird = require('bluebird');
+const multiparty = require('multiparty');
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'public/images');
-  },
+const BUCKET_NAME = 'birdviewbucket';
+const IAM_USER_KEY = 'AKIAIX2Y7UI5T7Q3M22A';
+const IAM_USER_SECRET = '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';
 
-  filename: (req, file, cb) => {
-    cb(null, file.originalname + '-' + Date.now())
-  }
+AWS.config.update({
+  accessKeyId: IAM_USER_KEY,
+  secretAccessKey: IAM_USER_SECRET
 });
+AWS.config.setPromisesDependency(bluebird);
+const s3 = new AWS.S3();
 
-const imageFileFilter = (req, file, cb) => {
-  if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
-    return cb(new Error('You can upload only image files!'), false);
-  }
-  cb(null, true);
+const uploadFile = (buffer, name, type) => {
+  const params = {
+    ACL: 'public-read',
+    Body: buffer,
+    Bucket: BUCKET_NAME,
+    ContentType: type.mime,
+    Key: `${name}.${type.ext}`
+  };
+  return s3.upload(params).promise();
 };
 
-const upload = multer({ storage: storage, fileFilter: imageFileFilter });
-
 const uploadRouter = express.Router();
-
 uploadRouter.use(bodyParser.json());
 
 uploadRouter.route('/')
@@ -30,10 +37,24 @@ uploadRouter.route('/')
     res.statusCode = 403;
     res.end('GET operation not supported on /imageUpload');
   })
-  .post(upload.single('imageFile'), (req, res) => {
-    res.statusCode = 200;
-    res.setHeader('Content-Type', 'application/json');
-    res.send(req.file);
+  .post((request, response, next) => {
+    console.log('received');
+    const form = new multiparty.Form();
+    form.parse(request, async (error, fields, files) => {
+      if (error) throw new Error(error);
+      try {
+        const path = files.file[0].path;
+        const buffer = fs.readFileSync(path);
+        const type = fileType(buffer);
+        const timestamp = Date.now().toString();
+        const fileName = `${timestamp}-lg`;
+        const data = await uploadFile(buffer, fileName, type);
+        console.log('Data uploaded: ', data);
+        return response.status(200).send(data);
+      } catch (error) {
+        return response.status(400).send(error);
+      }
+    });
   })
   .put((req, res, next) => {
     res.statusCode = 403;

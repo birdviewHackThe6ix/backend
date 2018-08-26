@@ -24,7 +24,11 @@ const profileSchema = new Schema({
   },
   other: {
     type: String
-  }
+  },
+  hashtag: {
+    type: String
+  },
+  matches: []
 }, {
     timestamps: true
   });
