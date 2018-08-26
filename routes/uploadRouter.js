@@ -33,7 +33,6 @@ uploadRouter.route('/')
   .post(upload.single('imageFile'), (req, res) => {
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/json');
-    console.log('Musa: ', req.file);
     res.send(req.file);
   })
   .put((req, res, next) => {

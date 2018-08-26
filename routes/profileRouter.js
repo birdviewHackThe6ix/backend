@@ -19,7 +19,6 @@ profileRouter.route('/')
   .post((req, res, next) => {
     Profiles.create(req.body)
       .then((profile) => {
-        console.log('Profile Created ', profile);
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
         res.json(profile);
