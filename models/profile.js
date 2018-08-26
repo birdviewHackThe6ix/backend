@@ -5,7 +5,7 @@ const profileSchema = new Schema({
   reporter: {
     type: String
   },
-  images: [String],
+  imageUrl: String,
   name: {
     type: String,
     required: true
