@@ -31,6 +31,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/users', usersRouter);
+app.use('/profiles', profileRouter);
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
@@ -51,8 +52,6 @@ function auth(req, res, next) {
 app.use(auth);
 
 app.use(express.static(path.join(__dirname, 'public')));
-
-app.use('/profiles', profileRouter);
 
 const mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');

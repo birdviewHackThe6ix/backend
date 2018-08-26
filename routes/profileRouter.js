@@ -8,7 +8,7 @@ profileRouter.use(bodyParser.json());
 
 profileRouter.route('/')
   .get((req, res, next) => {
-    Profiles.find({})
+    Profiles.find(req.query)
       .populate('reporter')
       .then((profiles) => {
         res.statusCode = 200;
@@ -18,7 +18,6 @@ profileRouter.route('/')
       .catch((err) => next(err));
   })
   .post((req, res, next) => {
-    req.body.reporter = req.user._id;
     Profiles.create(req.body)
       .then((profile) => {
         console.log('Profile Created ', profile);

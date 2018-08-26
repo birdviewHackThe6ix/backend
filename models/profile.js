@@ -3,9 +3,9 @@ const Schema = mongoose.Schema;
 
 const profileSchema = new Schema({
   reporter: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
+    type: String
   },
+  images: [String],
   name: {
     type: String,
     required: true

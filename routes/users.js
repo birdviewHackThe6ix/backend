@@ -2,13 +2,21 @@ var express = require('express');
 const passport = require('passport');
 var router = express.Router();
 const bodyParser = require('body-parser');
+
 const User = require('../models/user');
 
 router.use(bodyParser.json());
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
-  res.send('respond with a resource');
+  User.find(req.query)
+    .populate('reporter')
+    .then((users) => {
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/json');
+      res.json(users);
+    }, (err) => next(err))
+    .catch((err) => next(err));
 });
 
 router.post('/signup', (req, res, next) => {
@@ -42,6 +50,7 @@ router.post('/signup', (req, res, next) => {
 });
 
 router.post('/login', passport.authenticate('local'), (req, res) => {
+  console.log(req.body);
   res.statusCode = 200;
   res.setHeader('Content-Type', 'application/json');
   res.json({ success: true, status: 'You are successfully logged in!' });
