@@ -3,9 +3,9 @@ const Schema = mongoose.Schema;
 
 const profileSchema = new Schema({
   reporter: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
+    type: String
   },
+  images: [String],
   name: {
     type: String,
     required: true
@@ -20,7 +20,7 @@ const profileSchema = new Schema({
     type: String
   },
   lastSeenTime: {
-    type: Date
+    type: String
   },
   other: {
     type: String
