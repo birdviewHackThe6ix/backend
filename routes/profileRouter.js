@@ -17,7 +17,7 @@ profileRouter.route('/')
       .catch((err) => next(err));
   })
   .post((req, res, next) => {
-    req.body.hashtag = 'birdview_' + req.body.name;
+    req.body.hashtag = '#' + req.body.name + 'birdview';
     Profiles.create(req.body)
       .then((profile) => {
         res.statusCode = 200;
