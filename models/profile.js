@@ -5,7 +5,7 @@ const profileSchema = new Schema({
   reporter: {
     type: String
   },
-  images: [String],
+  imageUrl: String,
   name: {
     type: String,
     required: true
@@ -20,7 +20,7 @@ const profileSchema = new Schema({
     type: String
   },
   lastSeenTime: {
-    type: Date
+    type: String
   },
   other: {
     type: String

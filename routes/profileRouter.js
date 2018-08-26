@@ -9,7 +9,6 @@ profileRouter.use(bodyParser.json());
 profileRouter.route('/')
   .get((req, res, next) => {
     Profiles.find(req.query)
-      .populate('reporter')
       .then((profiles) => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
@@ -32,13 +31,16 @@ profileRouter.route('/')
     res.end('PUT operation not supported on /profiles');
   })
   .delete((req, res, next) => {
-    Profiles.remove({})
-      .then((response) => {
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json');
-        res.json(response);
-      }, (err) => next(err))
-      .catch((err) => next(err));
+    // Profiles.remove({})
+    //   .then((response) => {
+    //     res.statusCode = 200;
+    //     res.setHeader('Content-Type', 'application/json');
+    //     res.json(response);
+    //   }, (err) => next(err))
+    //   .catch((err) => next(err));
+    res.statusCode = 403;
+    res.end('DELETE operation not supported on /profiles');
+
   });
 
 profileRouter.route('/:profileId')
@@ -68,13 +70,16 @@ profileRouter.route('/:profileId')
       .catch((err) => next(err));
   })
   .delete((req, res, next) => {
-    Profiles.findByIdAndRemove(req.params.profileId)
-      .then((resp) => {
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json');
-        res.json(resp);
-      })
-      .catch((err) => next(err));
+    // Profiles.findByIdAndRemove(req.params.profileId)
+    //   .then((resp) => {
+    //     res.statusCode = 200;
+    //     res.setHeader('Content-Type', 'application/json');
+    //     res.json(resp);
+    //   })
+    //   .catch((err) => next(err));
+    res.statusCode = 403;
+    res.end('DELETE operation not supported on /profiles/' + req.params.profileId);
+
   });
 
 module.exports = profileRouter;

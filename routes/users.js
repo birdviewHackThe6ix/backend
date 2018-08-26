@@ -1,6 +1,6 @@
 var express = require('express');
-const passport = require('passport');
 var router = express.Router();
+<<<<<<< HEAD
 const bodyParser = require('body-parser');
 
 const User = require('../models/user');
@@ -68,4 +68,12 @@ router.get('/logout', (req, res, next) => {
   }
 });
 
+=======
+
+/* GET users listing. */
+router.get('/', function(req, res, next) {
+  res.send('respond with a resource');
+});
+
+>>>>>>> tmp-work
 module.exports = router;
